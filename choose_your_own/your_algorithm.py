@@ -30,9 +30,13 @@ plt.show()
 
 ### your code here!  name your classifier object clf if you want the 
 ### visualization code (prettyPicture) to show you the decision boundary
+from sklearn.neighbors import KNeighborsClassifier
 
+clf = KNeighborsClassifier(n_neighbors=5)
+clf.fit(features_train, labels_train)
 
-
+accuracy = clf.score(features_test, labels_test)
+print "Accuracy of KNN is %f " %accuracy
 
 
 
