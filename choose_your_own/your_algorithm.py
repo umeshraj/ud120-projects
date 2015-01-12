@@ -30,16 +30,39 @@ plt.show()
 
 ### your code here!  name your classifier object clf if you want the 
 ### visualization code (prettyPicture) to show you the decision boundary
+
+def trainTestAccuracy(name, clf):
+    clf.fit(features_train, labels_train)
+    accuracy = clf.score(features_test, labels_test)
+    print "Accuracy of %s is %f " %(name, accuracy)
+
+    
+
+#testing Naive Bayes
+from sklearn.naive_bayes import GaussianNB
+clfNB = GaussianNB()
+trainTestAccuracy('Naive Bayes', clfNB)
+
+#testing SVM
+from sklearn.svm import SVC
+clfSVC = SVC() 
+trainTestAccuracy('SVM', clfSVC)   
+
+
+# testing the KNN 
 from sklearn.neighbors import KNeighborsClassifier
+clfKNN = KNeighborsClassifier(n_neighbors=1)
+trainTestAccuracy('KNN', clfKNN) 
 
-clf = KNeighborsClassifier(n_neighbors=5)
-clf.fit(features_train, labels_train)
+#testing the adaboost algo
+from sklearn.ensemble import AdaBoostClassifier
+clfAdaBoost = AdaBoostClassifier()
+trainTestAccuracy('AdaBoost', clfAdaBoost) 
 
-accuracy = clf.score(features_test, labels_test)
-print "Accuracy of KNN is %f " %accuracy
-
-
-
+#testing Random forest algo
+from sklearn.ensemble import RandomForestClassifier
+clfRandForest = RandomForestClassifier()
+trainTestAccuracy('Random Forest', clfRandForest) 
 
 
 try:
