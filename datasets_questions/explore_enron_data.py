@@ -81,3 +81,14 @@ for person in enron_data.values():
     print "%s %s %d %d" %(salary, emailAddress, numWithSalary, numWithEmail)
 print  "There are %d people with quantified salary" %numWithSalary
 print  "There are %d people with known email" %numWithEmail
+
+#number of people with nan for total_payments
+numNanTotalPayments = 0
+for person in enron_data.values():
+    if person["total_payments"] == 'NaN':
+        numNanTotalPayments +=1
+numPeople = len(enron_data)      
+nanPercent = float(numNanTotalPayments)/numPeople * 100  
+print "%d of %d (or %f%%) have 'NaN' for total_payments" %(numNanTotalPayments, numPeople, nanPercent) 
+
+
