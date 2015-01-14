@@ -19,4 +19,17 @@ import pickle
 
 enron_data = pickle.load(open("../final_project/final_project_dataset.pkl", "r"))
 
+#finding the number of people in the dataset
+numRows = len(enron_data)
 
+#how many features for each person
+allKeys = enron_data.keys()
+numFeatues = len(enron_data[allKeys[1]])
+
+#how many pois are there?
+numPOI = 0
+for key in enron_data.keys():
+    if enron_data[key]['poi'] is True:
+        numPOI +=1
+print "The number of POIs is %d" %numPOI
+        
