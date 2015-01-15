@@ -86,9 +86,23 @@ print  "There are %d people with known email" %numWithEmail
 numNanTotalPayments = 0
 for person in enron_data.values():
     if person["total_payments"] == 'NaN':
-        numNanTotalPayments +=1
-numPeople = len(enron_data)      
-nanPercent = float(numNanTotalPayments)/numPeople * 100  
-print "%d of %d (or %f%%) have 'NaN' for total_payments" %(numNanTotalPayments, numPeople, nanPercent) 
+        numNanTotalPayments += 1
+numPeople = len(enron_data)
+nanPercent = float(numNanTotalPayments)/numPeople * 100
+print "%d of %d (or %f%%) have 'NaN' for total_payments" %(numNanTotalPayments, numPeople, nanPercent)
 
-
+# number of POIs with nan for total payment
+numPOINanTotalPayments = 0
+numPOI = 0
+for person in enron_data.values():
+    if (person["poi"] == True):  # count number of POIs
+        numPOI += 1        
+        if person["total_payments"]=="NaN":  # number of POI+NanTotalPayment
+            numPOINanTotalPayments += 1
+poiNanPercent = float(numPOINanTotalPayments)/numPOI * 100
+print "%d of %d (or %f%%) POIs have NaN for total payments" %(numPOINanTotalPayments, numPOI, nanPercent)
+        
+# adding 10 Nans all of which are POIs 
+newNumPeople = numPeople + 10
+newNumPOI = numPOI + 10
+#print "now %d/%d of people had Nan. %d/%d POIs have nan" %(numPOI)
