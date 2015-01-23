@@ -14,7 +14,14 @@ def outlierCleaner(predictions, ages, net_worths):
     cleaned_data = []
 
     ### your code goes here
-
+    import numpy as np
+    err = net_worths - predictions  # computer error
+    absErr = abs(err)  # compute abs error
+    smallIdx = np.argsort(absErr, axis=0)  # sort indices
+    finIdx = smallIdx[0:81]  # picking only 81 of the 80 values
+    
+    
+    cleaned_data = zip(ages[finIdx], net_worths[finIdx], err[finIdx])
     
     return cleaned_data
 
