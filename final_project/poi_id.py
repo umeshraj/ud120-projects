@@ -10,8 +10,11 @@ from feature_format import targetFeatureSplit
 
 ### features_list is a list of strings, each of which is a feature name
 ### first feature must be "poi", as this will be singled out as the label
+finance_features = ['salary', 'deferral_payments', 'total_payments', 'loan_advances', 'bonus', 'restricted_stock_deferred', 'deferred_income', 'total_stock_value', 'expenses', 'exercised_stock_options', 'other', 'long_term_incentive', 'restricted_stock', 'director_fees']
+email_features = ['to_messages', 'from_poi_to_this_person', 'from_messages', 'from_this_person_to_poi', 'poi', 'shared_receipt_with_poi'] 
 features_list = ["poi"]
-
+# features_list = features_list + finance_features + email_features
+features_list = features_list + finance_features
 
 ### load the dictionary containing the dataset
 data_dict = pickle.load(open("final_project_dataset.pkl", "r") )
@@ -39,12 +42,21 @@ data = featureFormat(my_dataset, features_list)
 ### be first in features_list
 labels, features = targetFeatureSplit(data)
 
+from sklearn.cross_validation import train_test_split
+features_train, features_test, labels_train, labels_test = \
+train_test_split(features, labels, test_size=0.5)
 
 
 ### machine learning goes here!
 ### please name your classifier clf for easy export below
 
-clf = None    ### get rid of this line!  just here to keep code from crashing out-of-box
+#clf = None    ### get rid of this line!  just here to keep code from crashing out-of-box
+from sklearn.ensemble import AdaBoostClassifier
+from sklearn.naive_bayes import GaussianNB
+clf = AdaBoostClassifier()
+#clf = GaussianNB()
+clf.fit(features_train, labels_train)
+
 
 
 ### dump your classifier, dataset and features_list so 
