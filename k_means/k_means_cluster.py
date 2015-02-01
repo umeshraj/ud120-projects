@@ -49,10 +49,17 @@ data_dict.pop("TOTAL", 0)
 ### can be any key in the person-level dictionary (salary, director_fees, etc.) 
 feature_1 = "salary"
 feature_2 = "exercised_stock_options"
+feature_3 = "total_payments"
 poi  = "poi"
 features_list = [poi, feature_1, feature_2]
 data = featureFormat(data_dict, features_list )
 poi, finance_features = targetFeatureSplit( data )
+
+#feature scaling to feature_1 and feature_2
+from sklearn.preprocessing import MinMaxScaler
+scaler = MinMaxScaler()
+scaler.fit(data[:,1:3])
+
 
 
 ### in the "clustering with 3 features" part of the mini-project,
@@ -60,7 +67,7 @@ poi, finance_features = targetFeatureSplit( data )
 ### for f1, f2, _ in finance_features:
 ### (as it's currently written, line below assumes 2 features)
 for f1, f2 in finance_features:
-    plt.scatter( f1, f2 )
+    plt.scatter( f1, f2)
 plt.show()
 
 
@@ -71,18 +78,32 @@ data2 = featureFormat(data_dict, features_list )
 poi, finance_features = targetFeatureSplit( data2 )
 clf = KMeans(n_clusters=2)
 pred = clf.fit_predict( finance_features )
-Draw(pred, finance_features, poi, name="clusters_before_scaling.pdf", f1_name=feature_1, f2_name=feature_2)
+Draw(pred, finance_features, poi, name="clusters_before_scaling.pdf",\
+ f1_name=feature_1, f2_name=feature_2)
 
 
 ### cluster here; create predictions of the cluster labels
 ### for the data and store them to a list called pred
 
 try:
-    Draw(pred, finance_features, poi, mark_poi=False, name="clusters.pdf", f1_name=feature_1, f2_name=feature_2)
+    Draw(pred, finance_features, poi, mark_poi=False, name="clusters.pdf",\
+    f1_name=feature_1, f2_name=feature_2)
 except NameError:
     print "no predictions object named pred found, no clusters to plot"
 
 
+# find the min and max of exercised_stock_options
 
+tmp = []
+for person in data_dict.values():
+    tmp.append(person['exercised_stock_options'])    
 
+clnTmp = [x for x in tmp if x != "NaN"]  # remove nans for computing min/max
+print "min value: %d max value: %d" %(min(clnTmp), max(clnTmp))
 
+# min and max values of salary
+salary = []
+for person in data_dict.values():
+    salary.append(person['salary'])
+clnSalary = [x for x in salary if x != "NaN"]  # remove nans for computing min/max
+print "min value: %d max value: %d" %(min(clnSalary), max(clnSalary))
